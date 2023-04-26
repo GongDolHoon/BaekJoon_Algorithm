@@ -2,36 +2,42 @@
 #include <cstdint>
 #include <iostream>
 
+using namespace std;
+
+uint16_t inputs[9];
+
 int main()
 {
-	int16_t heights[9] = {0,};
-
-	for (int8_t i = 0; i < 9; ++i)
+	// 입력을 처리함
+	// -1. 아홉 개의 줄에 걸쳐 난쟁이의 키를 입력으로 처리
+	for (uint16_t i = 0; i < 9; ++i)
 	{
-		std::cin >> heights[i];
+		cin >> inputs[i]; 
 	}
 
-	std::sort(&heights[0], &heights[9]);
+	// 난쟁이의 키를 정렬해야 함
+	sort(inputs + 0, inputs + 9);
 
-	int16_t result = 0;
-
+	// 아홉 난쟁이 중 일곱 명을 선택하여 합이 100이 되는지 확인
+	uint16_t sum;
 	do {
-		result = 0;
-
-		for (int i = 0; i < 7; ++i)
+		sum = 0;
+		for (uint16_t i = 0; i < 7; ++i)
 		{
-			result += heights[i];
+			sum += inputs[i];
 		}
 
-		if (result == 100)
+		if (sum == 100)
 		{
-			for (int i = 0; i < 7; ++i)
-			{
-				std::cout << heights[i] << std::endl;
-			}
 			break;
 		}
-	} while(std::next_permutation(&heights[0], &heights[9]));
+	} while (next_permutation(inputs + 0, inputs + 9));
+	// 출력을 처리함 
+	// -1. 키의 합이 100이 되는 난쟁이를 오름차순으로 출력
+	for (uint16_t i = 0; i < 7; ++i) 
+	{
+		cout << inputs[i] << '\n';
+	}
 
 	return 0;
 }
