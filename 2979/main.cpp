@@ -1,62 +1,46 @@
-#include <iostream>
 #include <cstdint>
+#include <iostream>
 #include <unordered_map>
+
+using namespace std;
+
+uint16_t a, b, c;
+pair<uint16_t, uint16_t> inputs[3];
+uint16_t output = 0;
+unordered_map<uint16_t, uint16_t> map;
 
 int main()
 {
-	int16_t fee_1 = 0;
-	int16_t fee_2 = 0;
-	int16_t fee_3 = 0;
-
-	std::cin >> fee_1 >> fee_2 >> fee_3;
-
-	int16_t a_arrived = 0;
-	int16_t a_leaved = 0;
-	int16_t b_arrived = 0;
-	int16_t b_leaved = 0;
-	int16_t c_arrived = 0;
-	int16_t c_leaved = 0;
-
-	int32_t result = 0;
-
-	std::cin >> a_arrived >> a_leaved;
-	std::cin >> b_arrived >> b_leaved;
-	std::cin >> c_arrived >> c_leaved;
-
-	std::unordered_map<int16_t, int8_t> hash;
-
-	for (int16_t i = a_arrived; i < a_leaved; ++i)
+	// 입력 - A, B, C (1 <= C <= B <= A <= 100)
+	cin >> a >> b >> c; 
+	// 세 줄에 두 개의 정수 입력 (1이상 100이하)
+	for (uint16_t ui = 0; ui < 3; ++ui)
 	{
-		hash[i]++;
-	}
-
-	for (int16_t i = b_arrived; i < b_leaved; ++i)
-	{
-		hash[i]++;
-	}
-
-	for (int16_t i = c_arrived; i < c_leaved; ++i)
-	{
-		hash[i]++;
-	}
-
-	for (auto element : hash)
-	{
-		if (element.second == 1)
+		cin >> inputs[ui].first >> inputs[ui].second;
+		for (uint16_t uj = inputs[ui].first; uj < inputs[ui].second; uj++)
 		{
-			result += fee_1;
-		}
-		else if (element.second == 2)
-		{
-			result += fee_2 * 2;
-		}
-		else if (element.second == 3)
-		{
-			result += fee_3 * 3;
+			map.insert({uj, map[uj]++});
 		}
 	}
 
-	std::cout << result << std::endl;
+	for (auto value : map)
+	{
+		if (value.second == 1)
+		{
+			output += a;
+		}
+		else if (value.second == 2)
+		{
+			output += b * 2;
+		}
+		else
+		{
+			output += c * 3;
+		}
+	}
+
+	// 출력 - 지불해야 하는 주차 요금
+	cout << output << '\n';
 
 	return 0;
 }
